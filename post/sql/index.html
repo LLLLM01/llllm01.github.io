@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>SQL快速运用指南 | LLLLM</title>
+<link rel="shortcut icon" href="https://llllm01.github.io/favicon.ico">
+<link href="https://llllm01.github.io/styles/main.css?v=1727620397113" rel="stylesheet">
+<link href="//at.alicdn.com/t/font_1678829_1mxi55l93a3.css" rel="stylesheet">
+<link rel="alternate" type="application/rss+xml" title="LLLLM » Feed"
+  href="https://llllm01.github.io/atom.xml">
+
+
+
+
+    <meta name="description" content="MySQL 是一个关系型数据库管理系统，由瑞典 MySQL AB 公司开发，目前属于 Oracle 公司。MySQL 是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活..." />
+    <meta name="keywords" content="MySQL,数据库" />
+</head>
+
+<body>
+  <div class="main animated">
+    <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <a href="https://llllm01.github.io">
+        LLLLM
+      </a>
+    </div>
+    <div class="description">
+      Stay Curious, Stay Naive.
+    </div>
+  </div>
+  <div class="my_socials">
+    
+    
+          
+    
+          
+    
+          
+    
+          
+    
+          
+    <a href="https://llllm01.github.io/atom.xml" target="_blank">
+      <i class="iconfont icon-rss"></i></a>
+  </div>
+</div>
+
+<div class="header_menu">
+  
+  
+  <a href="/" class="menu">首页</a>
+  
+
+  
+  <a href="/archives" class="menu">归档</a>
+  
+
+  
+  <a href="/tags" class="menu">标签</a>
+  
+
+  
+  <a href="/post/about" class="menu">关于</a>
+  
+
+  <div class="gridea-search-div">
+    <form id="gridea-search-form" data-update="1727620397113" action="https://llllm01.github.io/search/">
+      <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+    </form>
+  </div>
+</div>
+
+
+      <div class="autopagerize_page_element">
+        <div class="content">
+          <div class="post_page">
+            <div class="post animated fadeInDown">
+              <div class="post_title post_detail_title">
+                <h2>
+                  <a>
+                    SQL快速运用指南
+                  </a>
+                </h2>
+                <span class="article-info">
+                  2024-05-12, 1171 words, 5 min read
+                </span>
+              </div>
+              <div class="post_content markdown">
+                <p class="md_block">
+                  <span class="md_line md_line_start md_line_end">
+                    <p>MySQL 是一个关系型数据库管理系统，由瑞典 MySQL AB 公司开发，目前属于 Oracle 公司。MySQL 是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。</p>
+<!-- more -->
+<h2 id="安装">安装</h2>
+<pre><code># 启动mysql 
+sudo systemctl start mysql
+# 查看mysql 状态
+sudo systemctl status mysql
+
+# 查看mysql 配置 
+vim /etc/mysql/mariadb.conf.d/50-server.cnf
+
+# 查看系统中的mysql进程
+ps -aux | grep &quot;mysql&quot;
+ps -ef | grep mysql
+
+# 杀掉mysql进程 提示 bash: kill: (4385) - Operation not permitted， 因为没有权限，要使用sudo
+sudo kill -15
+</code></pre>
+<ul>
+<li>问题：访问数据库报错 ERROR 1524 (HY000): Plugin ‘unix_socket’ is not loaded</li>
+<li>解决：在配置文件[mysqld] 下增加 plugin-load-add = auth_socket.so， 重启服务。</li>
+</ul>
+<h2 id="安全管理">安全管理</h2>
+<h4 id="管理用户">管理用户</h4>
+<ol>
+<li>查看用户</li>
+</ol>
+<pre><code>USE mysql;
+SELECT user FROM user;
+</code></pre>
+<ol start="2">
+<li>创建用户 spaceack, 密码为 password123</li>
+</ol>
+<pre><code>CREATE USER spaceack IDENTIFIED BY 'password123';
+</code></pre>
+<ol start="3">
+<li>为用户授予数据库权限</li>
+</ol>
+<pre><code>grant all privileges on `数据库名`.* to '用户名'@'localhost';
+flush privileges;
+</code></pre>
+<h2 id="命令">命令</h2>
+<pre><code># 连接数据库管理系统 mysql -u root -p -h localhost -P 3306
+
+# 查看所有数据库 SHOW DATABASES;
+
+# 使用数据库 USE mysql;
+
+# 查看数据库中的所有表列表 SHOW TABLES;
+</code></pre>
+<p>显示表列 <code>SHOW COLUMNS FROM help_keyword;</code></p>
+<pre><code>+-----------------+------------------+------+-----+---------+-------+
+| Field           | Type             | Null | Key | Default | Extra |
++-----------------+------------------+------+-----+---------+-------+
+| help_keyword_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| name            | char(64)         | NO   | UNI | NULL    |       |
++-----------------+------------------+------+-----+---------+-------+
+
+DESCRIBE help_keyword;
+DESC help_keyword;
+
+显示建库语句
+ SHOW CREATE DATABASE mysql;
+显示建表语句
+ SHOW CREATE TABLE help_keyword;
+
+显示用户安全权限
+SHOW GRANTS
+
+</code></pre>
+<p>显示服务器状态： <code>SHOW STATUS;</code></p>
+<h2 id="备份">备份</h2>
+<h4 id="mysql备份类型">Mysql备份类型</h4>
+<h5 id="按照备份时对数据库的影响分为">按照备份时对数据库的影响分为</h5>
+<ul>
+<li>Hot backup（热备）：也叫在线备份。指在数据库运行中直接备份，对正在运行的数据库没有任何影响。</li>
+<li>Cold backup（冷备）：也叫离线备份。指在数据库停止的情况下备份。</li>
+<li>Warm backup（温备）：在数据库运行时备份，会加一个全局锁以保证数据的一致性，会对当前数据库的操作有影响。</li>
+</ul>
+<h5 id="按照备份后的文件内容分为">按照备份后的文件内容分为</h5>
+<ul>
+<li>逻辑备份：指备份后的文件内容是可读的，通常为文本文件，内容一般是SQL语句或表内的实际数据（mysqldump和select * into outfile），一般适用于数据库的升级和迁移，还原时间较长。适用于中小型数据库，效率相对较低。</li>
+<li>裸文件备份：也叫物理备份。拷贝数据库的物理文件，数据库既可以处于运行状态（mysqlhotcopy、ibbackup、xtrabackup一类工具），也可以处于停止状态，还原时间较短。，适用于大型数据库环境，但不能恢复到异构环境中，如windows。</li>
+<li>导出表：直接将表导入到文本文件中。</li>
+</ul>
+<h5 id="按照备份数据库的内容分为">按照备份数据库的内容分为</h5>
+<ul>
+<li>完全备份：对数据库进行完整的备份。</li>
+<li>增量备份：在上一次完整备份的基础上，对更新的数据进行备份（xtrabackup）</li>
+<li>日志备份：二进制日志备份，主从同步。</li>
+</ul>
+<h4 id="工具">工具：</h4>
+<ol>
+<li>mysqldump, 是逻辑备份工具，支持MyISAM和InnoDB引擎。数据库运行时，MyISAM，Aria引擎只支持温备，InnoDB支持热备和温备。单线程备份恢复较慢。</li>
+<li>Xtrabackup(innobackupex工具)， 备份mysql大数据； InnoDB支持，增量备份；MyISAM温备，不支持增量。属于物理备份，速度快；</li>
+<li>lvm-snapshot, 先请求全局锁，再创建快照，后释放全局锁;备份和恢复速度快。<br>
+可以使用MySQL的 BACKUP TABLE 或 SELECT INTO OUTFILE 转储所 有数据到某个外部文件。这两条语句都接受将要创建的系统文件 名,此系统文件必须不存在,否则会出错。数据可以用 RESTORE TABLE 来复原。</li>
+</ol>
+<h4 id="实例">实例</h4>
+<h5 id="备份数据库">备份数据库:</h5>
+<pre><code>/usr/bin/mysqldump --routines -h127.0.0.1 -uroot -ppassword --add-drop-table --disable-keys --extended-insert --single-transaction database_name &gt; database_name_date.sql
+</code></pre>
+<h5 id="恢复备份">恢复备份</h5>
+<pre><code>mysql -uroot -ppassword -Ddatabase_name &lt; database_name_date.sql
+</code></pre>
+<h5 id="备份包含-blob-类型字段的表">备份包含 blob 类型字段的表</h5>
+<p>需要添加 –hex-blob 参数</p>
+<pre><code>mysqldump --no-defaults --hex-blob -h127.0.0.1 -R -uroot -p --databases test_db --table test_table &gt; test_table_backup.sql
+</code></pre>
+<h5 id="备份恢复">备份恢复</h5>
+<pre><code>sudo mysql -u root -p --database=test_db &lt; test_table_backup.sql
+</code></pre>
+<h2 id="概念术语表">概念术语表</h2>
+<pre><code>SQL (Structured Query Language) 结构化查询语言:
+database 数据库
+DBMS 数据库管理系统
+table 表： 某种特定类型数据的结构化清单。
+schema 模式： 关于数据库和表的布局及特性信息。
+column 列：
+datatype 数据类型：
+row 行/record 记录：
+primary key 主键：一列(或一组列),其值能够唯一区分表中每个行。
+
+</code></pre>
+<blockquote>
+<p>应该总是定义主键 主键的最好习惯：<br>
+不更新主键列中的值;<br>
+不重用主键列的值;<br>
+不在主键列中使用可能会更改的值。</p>
+</blockquote>
+<br />
+                      
+                </p>
+              </div>
+              <div class="post_footer">
+                
+                  <div class="meta">
+                    <div class="info">
+                      <span class="field tags">
+                        <i class="iconfont icon-tag-sm"></i>
+                        
+                          <a href="https://llllm01.github.io/tag/C-d-DlU7W/" class="article-info">
+                            MySQL
+                          </a>
+                          
+                          <a href="https://llllm01.github.io/tag/GhQMFVb26/" class="article-info">
+                            数据库
+                          </a>
+                          
+                      </span>
+                    </div>
+                  </div>
+                  
+                    
+                      <div class="next-post" style="margin-top: 20px;">
+                        <div class="next">下一篇</div>
+                        <a href="https://llllm01.github.io/post/vimium/">
+                          <h3 class="post-title">
+                            Vimium使用教程
+                          </h3>
+                        </a>
+                      </div>
+                      
+              </div>
+            </div>
+            
+                         
+                          <script src="//cdn.jsdelivr.net/npm/valine@1.4.4/dist/Valine.min.js"></script>
+                          <script>
+                              new Valine({
+                                  el:'#comment',
+                                  appId: 'wUPwwTKYEr6hq8MJhNvpfiun-gzGzoHsz',
+                                  appKey: '90T8edhno90Z4Fdtf9A32eGp',
+                                  placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+                                  avatar:''
+                              });
+                          </script>
+
+          </div>
+        </div>
+      </div>
+  </div>
+
+
+
+
+
+  <div class="footer">
+  
+  <div class="powered">
+    Powered by<a href="https://gridea.dev/" target="_blank">Gridea</a>&<a
+    href="https://github.com/fei0810/gridea-theme-oneplus" target="_blank">Theme OnePlus</a>
+ </div>
+ <div class="footer_slogan">
+  
+</div>
+<div id="back_to_top" class="back_to_top">
+  <span>△</span>
+</div>
+<script src="https://llllm01.github.io/media/scripts/util.js"></script>
+
+</div>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+</body>
+
+</html>

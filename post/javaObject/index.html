@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>java 中面向对象的概念 | LLLLM</title>
+<link rel="shortcut icon" href="https://llllm01.github.io/favicon.ico">
+<link href="https://llllm01.github.io/styles/main.css?v=1727620397113" rel="stylesheet">
+<link href="//at.alicdn.com/t/font_1678829_1mxi55l93a3.css" rel="stylesheet">
+<link rel="alternate" type="application/rss+xml" title="LLLLM » Feed"
+  href="https://llllm01.github.io/atom.xml">
+
+
+
+
+    <meta name="description" content="关于java比较全面的面向对象概念
+构造代码块有什么用?
+如果所有的构造方法在最开始的时候有相同的一部分代码,不妨将这个公共的代码提取到构造代码块当中,这样代码可以得到复用
+public class Student {
+    {
+    ..." />
+    <meta name="keywords" content="java" />
+</head>
+
+<body>
+  <div class="main animated">
+    <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <a href="https://llllm01.github.io">
+        LLLLM
+      </a>
+    </div>
+    <div class="description">
+      Stay Curious, Stay Naive.
+    </div>
+  </div>
+  <div class="my_socials">
+    
+    
+          
+    
+          
+    
+          
+    
+          
+    
+          
+    <a href="https://llllm01.github.io/atom.xml" target="_blank">
+      <i class="iconfont icon-rss"></i></a>
+  </div>
+</div>
+
+<div class="header_menu">
+  
+  
+  <a href="/" class="menu">首页</a>
+  
+
+  
+  <a href="/archives" class="menu">归档</a>
+  
+
+  
+  <a href="/tags" class="menu">标签</a>
+  
+
+  
+  <a href="/post/about" class="menu">关于</a>
+  
+
+  <div class="gridea-search-div">
+    <form id="gridea-search-form" data-update="1727620397113" action="https://llllm01.github.io/search/">
+      <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+    </form>
+  </div>
+</div>
+
+
+      <div class="autopagerize_page_element">
+        <div class="content">
+          <div class="post_page">
+            <div class="post animated fadeInDown">
+              <div class="post_title post_detail_title">
+                <h2>
+                  <a>
+                    java 中面向对象的概念
+                  </a>
+                </h2>
+                <span class="article-info">
+                  2024-09-29, 2345 words, 9 min read
+                </span>
+              </div>
+              <div class="post_content markdown">
+                <p class="md_block">
+                  <span class="md_line md_line_start md_line_end">
+                    <p>关于java比较全面的面向对象概念</p>
+<h3 id="构造代码块有什么用">构造代码块有什么用?</h3>
+<p>如果所有的构造方法在最开始的时候有相同的一部分代码,不妨将这个公共的代码提取到构造代码块当中,这样代码可以得到复用</p>
+<pre><code class="language-java">public class Student {
+    {
+        for(int = 0; i&lt; 10; i++);
+        System.out.println(&quot;i = &quot; + i);
+    }
+    
+    public Student() {
+        System.out.println(&quot;Student类的无参构造方法执行了&quot;)
+    }
+    
+    
+}
+</code></pre>
+<pre><code class="language-java">public class ConstructorTest {
+    public static void main(String[] args) {
+        new Student();
+        new Student(&quot;张三&quot;);
+    }
+}
+</code></pre>
+<h3 id="初识-this">初识 this</h3>
+<blockquote>
+<p>this 本质上是一个引用，this 中保存的也是对象的内存地址</p>
+<p>this 中保存的也是对象的内存地址</p>
+<p>this 中保存的是当前对象的内存地址</p>
+<p>this.是可以省略的. 默认访问的就是当前对象的name</p>
+<p>this 存储在: 栈帧的局部变量表的第0个槽位上.</p>
+<p>this 大部分情况下可以省略,用于区分局部变量和实例变量时不能省略.</p>
+<p>this 不能出现在静态方法中.</p>
+<p>​	- this 代表的是当前对象,static的方法中没有当前对象,所以static的方法中不能使用this</p>
+<p>this(实参) 语法:</p>
+<p>​	1.只能出现在构造方法的第一行</p>
+<p>​	2.通过当前构造方法去调用本类中其他的构造方法.</p>
+<p>​	3.作用: 代码复用</p>
+</blockquote>
+<pre><code class="language-java">	实例变量
+    局部变量
+    静态变量
+    
+    静态代码块 :特殊时间点(类加载时刻)
+    初始化代码块
+</code></pre>
+<h3 id="static-关键字">static 关键字</h3>
+<ol>
+<li>
+<p>static 修饰的变量:静态变量</p>
+</li>
+<li>
+<p>static 修饰的方法:静态方法</p>
+</li>
+<li>
+<p>所有static修饰的,访问的时候,直接采用 &quot;类名&quot;,不需要 new 对象</p>
+</li>
+<li>
+<p>什么情况下把成员变量定义为静态成员变量?</p>
+<ul>
+<li>当一个属性是对象级别的,这个属性通常定义为实例变量. (实例变量是一个对象一份,100个对象就应该有 100 个空间).</li>
+<li>当一个属性是类级别的 (所有属性都有这个属性,并且这个属性的值是一样的),建议将其定义为静态变量,在内存空间上只有一份. 节省内存开销. 这种类级别的属性,不需要 new 对象,直接通过类名访问.</li>
+</ul>
+</li>
+<li>
+<p>静态变量存储在哪里? 静态变量什么时候初始化? (= 什么时候开辟空间?)</p>
+<p>​	答: JDK8之后: 静态变量存储在堆空间中. 类加载时初始化.</p>
+</li>
+<li>
+<p>静态变量可以采用引用访问,(但不建议,会给程序员造成困惑,程序员会认为 country 是一个实例变量).</p>
+</li>
+<li>
+<p>静态方法中不能使用 this 关键字,因此无法直接访问实例变量和调用实例方法.</p>
+</li>
+<li>
+<p>静态代码块在类加载时执行,一个类中可以编写多个静态代码块,遵循自上而下的顺序依次执行.</p>
+</li>
+<li>
+<p>静态代码块代表了类加载时刻,如何你有代码需要在此刻执行,可以将该代码放到静态代码块中.</p>
+</li>
+<li>
+<p>使用引用.访问静态相关的即使引用为null,也不会出现空指针异常.</p>
+</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://llllm.oss-cn-beijing.aliyuncs.com/java/image-20240926151021563.png" alt="image-20240926151021563" loading="lazy"></figure>
+<blockquote>
+<p>在同一个类中,类名. 是可以省略的.</p>
+<p>成员方法只能通过 实例变量和实例方法才可以调用</p>
+</blockquote>
+<p>静态代码块: 为程序员预留的特殊的时间点:类加载时刻</p>
+<p>如果你需要在类加载时刻执行一段程序的话,这段代码就可以写到静态代码块当中</p>
+<p>例如: 有这样一个需求,请在类加载时,记录日志.那么记录日志的代码就可以编写到静态代码块当中.</p>
+<h2 id="继承">继承</h2>
+<p>继承作用:</p>
+<ul>
+<li>基本作用: 代码复用</li>
+<li>重要作用: 有了继承,才有了方法覆盖和多态机制</li>
+</ul>
+<p>extends 翻译为 扩展, 表示子类继承父类后,子类是对父类的扩展</p>
+<p>继承相关的术语:</p>
+<ul>
+<li>父类 --- &gt; superclass</li>
+<li>子类 --- &gt; subclass</li>
+</ul>
+<p>java只支持单继承,一个类只能继承一个类.</p>
+<p>java不支持多继承,但支持多层继承, 子类继承父类,除私有的,构造方法不支持继承,其他的全部会继承.</p>
+<p>一个类没有显示继承任何类,默认会继承 java.lang.Object类</p>
+<p>方法覆盖/ 重写 /</p>
+<ol>
+<li>什么情况下考虑使用 方法覆盖?
+<ol>
+<li>当从父类中继承过来的方法无法满足当前子类的业务需求时.</li>
+</ol>
+</li>
+<li>发生方法覆盖的条件?
+<ol>
+<li>具有继承关系的父子类之间</li>
+<li>相同的返回值类型,相同的方法名,相同的形式参数列表</li>
+<li>访问权限不能变低,可以变高</li>
+<li>抛出异常不能变多,可以变少</li>
+<li>返回值类型可以是父类方法返回值类型的子类</li>
+</ol>
+</li>
+<li>方法覆盖的小细节
+<ol>
+<li>@override注解标注会在编译阶段检查该方法是否重写了父类的方法.</li>
+<li>私有方法不能继承,所以不能覆盖.</li>
+<li>构造方法不能继承,所以不能覆盖.</li>
+<li><mark>静态方法不存在方法覆盖,方法覆盖针对的是实例方法.</mark></li>
+<li><mark>方法覆盖说的实例方法,和实例变量无关. 因为 方法覆盖和多态才有意义.</mark></li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-java">// 方法覆盖说的实例方法,和实例变量无关.
+// 实例变量不存在覆盖这一说, a.name 编译阶段绑定的是 A类的 name属性,运行的时候也会输出A类的name属性值
+
+public class Test2 {
+    public static void main(String[] args) {
+        A a = new B();
+        System.out.println(a.name);
+    }
+}
+
+class A {
+    // 实例变量
+    String name = &quot;张三&quot;;
+}
+
+class B extends A {
+    // 实例变量
+    String name = &quot;李四&quot;;
+}
+</code></pre>
+<h2 id="多态">多态</h2>
+<ol>
+<li>
+<p>什么是向上转型和向下转型?</p>
+<ol>
+<li>
+<p>java允许具有继承关系的父子类型之间的类型转换</p>
+</li>
+<li>
+<p>向上转型: 子 ---&gt; 父</p>
+<ul>
+<li>子类型的对象可以赋值给一个父类型的引用</li>
+</ul>
+</li>
+<li>
+<p>向下转型: 父 ---&gt; 子</p>
+<ul>
+<li>父类型的引用可以转换为子类型的引用.但是需要加强制类型转换符.</li>
+</ul>
+</li>
+<li>
+<p>无论是向上转型还是向下转型?</p>
+<p>​	前提条件是: 两种类型之间必须存在继承关系. 这样编译器才能通过.</p>
+</li>
+</ol>
+<figure data-type="image" tabindex="2"><img src="https://llllm.oss-cn-beijing.aliyuncs.com/java/image-20240926224531760.png" alt="image-20240926224531760" loading="lazy"></figure>
+</li>
+<li>
+<p>什么是多态?</p>
+<ol>
+<li>
+<p>父类型引用指向子类对象:</p>
+<p><code>Animal a = new Cat(); a.move()</code></p>
+</li>
+<li>
+<p>程序分为编译阶段和运行阶段:</p>
+<ol>
+<li>编译阶段: 编译器只知道a 是 Animal 类型,因此去 Animal 类中找 move() 方法,找到之后,绑定成功.编译通过,这个过程称为 静态绑定.</li>
+<li>运行阶段: 运行时和 jvm 堆内存中的真实 java 对象有关, 所以运行时会自动调用真实对象的move() 方法. 这个过程通常被称为动态绑定.</li>
+</ol>
+</li>
+<li>
+<p>多态指的是: 多种形态, 编译阶段 一种形态, 运行阶段 一种形态, 因此称为多态.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>向下转型我们需要注意什么?</p>
+<ol>
+<li>向下转型时,使用不当,容易发生类型转换异常: ClassCastException</li>
+<li>在向下转型时,一般建议使用 instanceof 运算符进行判断来避免 ClassCaseException 的发生.</li>
+</ol>
+</li>
+<li>
+<p>instanceof 运算符的使用</p>
+<ol>
+<li>语法格式: (引用 instanceof 类型)</li>
+<li>执行结果为 true或者 false</li>
+<li>例如 (a instanceof cat)
+<ol>
+<li>如果结果为 true 表示 a 引用指向的对象是 Cat 类型</li>
+<li>如果结果为 false  表示 a 引用指向的对象不是 Cat 类型</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="抽象类">抽象类</h2>
+<pre><code>创建一个名为 Person 的类,在其中定义方法 greet(),用于问候对方. 在此基础上,创建一个名为 EnglishPerson的子类和名为 ChinesePeron的子类
+分别复写 greet() 方法, 分别使用英文和中文问候对方. 在main方法中 创建一个名为person的数组,添加一个 EnglishPerson对象和一个 ChinesePerson对象
+使用greet() 方法问候对方.
+</code></pre>
+<pre><code class="language-java">public abstract class Person {
+
+    public Person() {
+    }
+
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public abstract void greet(); // 抽象方法
+}
+</code></pre>
+<pre><code class="language-java">class ChinesePerson extends Person{
+    @Override
+    public void greet() {
+        System.out.println(&quot;你好呀,我的名字是 &quot; + this.getName() + &quot; 我很好!&quot;);
+    }
+}
+
+public class EnglishPerson extends Person{
+    @Override
+    public void greet() {
+        System.out.println(&quot;Hello, My name is &quot; + this.getName() + &quot; How are you ?&quot;);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+
+        Person englishPerson = new EnglishPerson();
+        englishPerson.setName(&quot;Frank&quot;);
+        englishPerson.greet();
+
+        System.out.println(&quot;---------------------&quot;);
+
+        Person chinesePerson = new ChinesePerson();
+        chinesePerson.setName(&quot;吴彦祖&quot;);
+        chinesePerson.greet();
+        
+    }
+}
+</code></pre>
+<h2 id="super-关键字">Super 关键字</h2>
+<ol>
+<li>super 关键字 和 this 关键字 对比来学习. this代表的是当前对象, super 代表的当前对象中的父类型特征.</li>
+<li>super 不能使用在静态上下文中.</li>
+<li>super 大部分情况下是可以省略的. 什么时候不能省略?
+<ol>
+<li>当父类和子类中定义了相同的属性 (实例变量) 或者 (实例方法)时, 如果需要在子类中访问父类的属性或方法时, super不能省略.</li>
+</ol>
+</li>
+<li>this 可以单独输出, super 不能单独输出.</li>
+<li>super(实参);通过子类的构造方法调用父类的构造方法,目的是为了完成父类型特征的初始化.</li>
+<li>当一个构造方法第一行没有显示的调用 super(实参), 也没有显示的调用 this(实参),系统会自动调用 super(). 因此一个类中的无参构造方法建议使用显示的定义出来.</li>
+</ol>
+<img src="https://llllm.oss-cn-beijing.aliyuncs.com/java/image-20240929184018775.png" alt="image-20240929184018775" style="zoom:150%;" /><br />
+                      
+                </p>
+              </div>
+              <div class="post_footer">
+                
+                  <div class="meta">
+                    <div class="info">
+                      <span class="field tags">
+                        <i class="iconfont icon-tag-sm"></i>
+                        
+                          <a href="https://llllm01.github.io/tag/m6tgs7ys4/" class="article-info">
+                            java
+                          </a>
+                          
+                      </span>
+                    </div>
+                  </div>
+                  
+                    
+                      <div class="next-post" style="margin-top: 20px;">
+                        <div class="next">下一篇</div>
+                        <a href="https://llllm01.github.io/post/editor/">
+                          <h3 class="post-title">
+                            IDEA常用快捷键大全
+                          </h3>
+                        </a>
+                      </div>
+                      
+              </div>
+            </div>
+            
+                         
+                          <script src="//cdn.jsdelivr.net/npm/valine@1.4.4/dist/Valine.min.js"></script>
+                          <script>
+                              new Valine({
+                                  el:'#comment',
+                                  appId: 'wUPwwTKYEr6hq8MJhNvpfiun-gzGzoHsz',
+                                  appKey: '90T8edhno90Z4Fdtf9A32eGp',
+                                  placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+                                  avatar:''
+                              });
+                          </script>
+
+          </div>
+        </div>
+      </div>
+  </div>
+
+
+
+
+
+  <div class="footer">
+  
+  <div class="powered">
+    Powered by<a href="https://gridea.dev/" target="_blank">Gridea</a>&<a
+    href="https://github.com/fei0810/gridea-theme-oneplus" target="_blank">Theme OnePlus</a>
+ </div>
+ <div class="footer_slogan">
+  
+</div>
+<div id="back_to_top" class="back_to_top">
+  <span>△</span>
+</div>
+<script src="https://llllm01.github.io/media/scripts/util.js"></script>
+
+</div>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+</body>
+
+</html>
